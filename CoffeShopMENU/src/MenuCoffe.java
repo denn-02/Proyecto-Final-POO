@@ -1,3 +1,7 @@
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -12,8 +16,18 @@ public class MenuCoffe extends javax.swing.JFrame {
     /**
      * Creates new form MenuCoffe
      */
+    int BebidaCap=0;
+    int BebidaRis=0;
+    int BebidaMac=0;
+    ArrayList<bebidas> beverage;
+    ArrayList<postres> dessert;
     public MenuCoffe() {
-        initComponents();
+       initComponents();
+       beverage = new ArrayList<>();
+       dessert = new ArrayList<>();
+        ClearAll();
+        
+        
     }
 
     /**
@@ -37,21 +51,34 @@ public class MenuCoffe extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         impuestoText = new javax.swing.JTextPane();
         totalText = new javax.swing.JScrollPane();
-        jTextPane3 = new javax.swing.JTextPane();
+        TxtTotal = new javax.swing.JTextPane();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnEnter = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
+        spnCappu = new javax.swing.JSpinner();
+        spnRist = new javax.swing.JSpinner();
+        spnMac = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                formPropertyChange(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Lucida Handwriting", 0, 18)); // NOI18N
         jLabel1.setText("     ---COFFEE SHOP MENU---");
 
         radCappuccino.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
         radCappuccino.setText("Cappuccino -- 65 lps");
+        radCappuccino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radCappuccinoActionPerformed(evt);
+            }
+        });
 
         radRistretto.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
         radRistretto.setText("Ristretto -- 55 lps");
@@ -63,6 +90,11 @@ public class MenuCoffe extends javax.swing.JFrame {
 
         radMacchiato.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
         radMacchiato.setText("Macchiato -- 70 lps");
+        radMacchiato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radMacchiatoActionPerformed(evt);
+            }
+        });
 
         checkCroissant.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
         checkCroissant.setText("Croissant -- 32 lps");
@@ -72,12 +104,17 @@ public class MenuCoffe extends javax.swing.JFrame {
 
         checkPie.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
         checkPie.setText("Pie de limón -- 30 lps");
+        checkPie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkPieActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setViewportView(subText);
 
         jScrollPane2.setViewportView(impuestoText);
 
-        totalText.setViewportView(jTextPane3);
+        totalText.setViewportView(TxtTotal);
 
         jLabel2.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
         jLabel2.setText("SubTotal:");
@@ -90,12 +127,51 @@ public class MenuCoffe extends javax.swing.JFrame {
 
         btnEnter.setFont(new java.awt.Font("Rockwell", 0, 14)); // NOI18N
         btnEnter.setText("Enter");
+        btnEnter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnterActionPerformed(evt);
+            }
+        });
 
         btnClear.setFont(new java.awt.Font("Rockwell", 0, 14)); // NOI18N
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         btnExit.setFont(new java.awt.Font("Rockwell", 0, 14)); // NOI18N
         btnExit.setText("Exit");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
+
+        spnCappu.setName("CapuCant"); // NOI18N
+        spnCappu.setVerifyInputWhenFocusTarget(false);
+        spnCappu.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spnCappuStateChanged(evt);
+            }
+        });
+
+        spnRist.setName("CapuCant"); // NOI18N
+        spnRist.setVerifyInputWhenFocusTarget(false);
+        spnRist.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spnRistStateChanged(evt);
+            }
+        });
+
+        spnMac.setName("CapuCant"); // NOI18N
+        spnMac.setVerifyInputWhenFocusTarget(false);
+        spnMac.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spnMacStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,11 +181,20 @@ public class MenuCoffe extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(radRistretto)
-                            .addComponent(radCappuccino)
-                            .addComponent(radMacchiato))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(radRistretto)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(spnRist, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(radCappuccino)
+                                .addGap(26, 26, 26)
+                                .addComponent(spnCappu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(radMacchiato)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(spnMac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(checkPie)
                             .addComponent(checkTarta)
@@ -119,7 +204,7 @@ public class MenuCoffe extends javax.swing.JFrame {
                             .addComponent(btnExit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnEnter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -146,16 +231,20 @@ public class MenuCoffe extends javax.swing.JFrame {
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(checkPie, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(radCappuccino))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(radCappuccino)
+                        .addComponent(spnCappu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(radRistretto)
-                    .addComponent(checkCroissant))
+                    .addComponent(checkCroissant)
+                    .addComponent(spnRist, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(radMacchiato)
-                    .addComponent(checkTarta))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                    .addComponent(checkTarta)
+                    .addComponent(spnMac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
@@ -177,9 +266,138 @@ public class MenuCoffe extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void Clear(){
+        subText.setText("");
+        impuestoText.setText("");
+        TxtTotal.setText("");
+        spnCappu.setVisible(false);
+        spnRist.setVisible(false);
+        spnMac.setVisible(false);
+    }
+        private void ClearAll(){
+        subText.setText("");
+        impuestoText.setText("");
+        TxtTotal.setText("");
+        spnCappu.setVisible(false);
+        spnRist.setVisible(false);
+        spnMac.setVisible(false);
+        radCappuccino.setSelected(false);
+        radMacchiato.setSelected(false);
+         radRistretto.setSelected(false);
+         checkCroissant.setSelected(false);
+         checkPie.setSelected(false);
+         checkTarta.setSelected(false);
+        
+    }
     private void radRistrettoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radRistrettoActionPerformed
         // TODO add your handling code here:
+        if (radRistretto.isSelected())
+            radCappuccino.setSelected(false);
+            radMacchiato.setSelected(false);
+            Clear();
+            spnRist.setVisible(true);
+            
     }//GEN-LAST:event_radRistrettoActionPerformed
+
+    private void radCappuccinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radCappuccinoActionPerformed
+        // seleccion de cafe
+        if (radCappuccino.isSelected())
+            radRistretto.setSelected(false);
+            radMacchiato.setSelected(false);
+            Clear();
+            spnCappu.setVisible(true);
+        
+    }//GEN-LAST:event_radCappuccinoActionPerformed
+
+    private void radMacchiatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radMacchiatoActionPerformed
+        // TODO add your handling code here:
+        if (radMacchiato.isSelected())
+            radRistretto.setSelected(false);
+            radCappuccino.setSelected(false);
+            Clear();
+            spnMac.setVisible(true);
+    }//GEN-LAST:event_radMacchiatoActionPerformed
+
+    private void checkPieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPieActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkPieActionPerformed
+
+    private void btnEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterActionPerformed
+        // TODO add your handling code here:
+        if (radMacchiato.isSelected()){
+            Macchiato mc = new Macchiato();
+            mc.setCantidad(BebidaMac);
+            this.beverage.add(mc);
+        }      
+        if (radRistretto.isSelected()){
+            Ristretto rs = new Ristretto();
+            rs.setCantidad(BebidaMac);
+            this.beverage.add(rs);
+        }
+        if (radCappuccino.isSelected()){
+            Capuccino cp = new Capuccino();
+            cp.setCantidad(BebidaCap);
+            this.beverage.add(cp);
+        }  
+        if(checkCroissant.isSelected()){
+            croassaint cr = new croassaint();
+            dessert.add(cr);
+        }
+        if(checkPie.isSelected()){
+            pie pie = new pie();
+            dessert.add(pie);
+        }
+
+        if(checkTarta.isSelected()){
+            tarta tar = new tarta();
+            dessert.add(tar);
+        }
+        double Subtotal =0;
+        double impuesto;
+        double total;
+        for (bebidas bv : beverage) {
+            Subtotal = Subtotal + (bv.getPrecio()*bv.getCantidad());
+        }
+         for(postres p :dessert){
+             Subtotal = Subtotal + p.getPrecio()*1;
+         }   
+         impuesto = Subtotal*0.15;
+         total = Subtotal * 1.15;
+         subText.setText(String.valueOf(Subtotal));
+         impuestoText.setText(String.valueOf(impuesto));
+         TxtTotal.setText(String.valueOf(total));
+    }//GEN-LAST:event_btnEnterActionPerformed
+
+    private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_formPropertyChange
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_formPropertyChange
+
+    private void spnCappuStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnCappuStateChanged
+        // TODO add your handling code here:
+        BebidaCap= (int) spnCappu.getValue();
+    }//GEN-LAST:event_spnCappuStateChanged
+
+    private void spnRistStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnRistStateChanged
+        // TODO add your handling code here:
+        BebidaRis=(int) spnRist.getValue();
+    }//GEN-LAST:event_spnRistStateChanged
+
+    private void spnMacStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnMacStateChanged
+        // TODO add your handling code here:
+        BebidaMac=(int)spnMac.getValue();
+    }//GEN-LAST:event_spnMacStateChanged
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        // TODO add your handling code here:
+        ClearAll();
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        // TODO add your handling code here:
+        //this.setVisible(false);
+        this.dispose();
+    }//GEN-LAST:event_btnExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -217,6 +435,7 @@ public class MenuCoffe extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextPane TxtTotal;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnEnter;
     private javax.swing.JButton btnExit;
@@ -230,10 +449,12 @@ public class MenuCoffe extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextPane jTextPane3;
     private javax.swing.JRadioButton radCappuccino;
     private javax.swing.JRadioButton radMacchiato;
     private javax.swing.JRadioButton radRistretto;
+    private javax.swing.JSpinner spnCappu;
+    private javax.swing.JSpinner spnMac;
+    private javax.swing.JSpinner spnRist;
     private javax.swing.JTextPane subText;
     private javax.swing.JScrollPane totalText;
     // End of variables declaration//GEN-END:variables
